@@ -4,6 +4,10 @@ It is currently not possible to navigate through the QuickFix (CodeActions) popu
 For VIM users this really breaks the workflow.
 This extension displays quick fixes in a quick open rather than in the menu.
 
+### Before
+![Before](/before.png)
+### After
+![After](/after.png)
 ## How to use
 The command to open the quick fix picker is:
 
