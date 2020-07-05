@@ -6,7 +6,7 @@ import * as vscode from "vscode";
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
-    "keyboard-quickfix.helloWorld",
+    "keyboard-quickfix.openQuickFix",
     async () => {
       var commands = (await vscode.commands.executeCommand(
         "vscode.executeCodeActionProvider",
