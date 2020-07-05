@@ -14,9 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.activeTextEditor?.selection
       )) as CodeActionCommand[];
 
-      vscode.window
-        .showQuickPick(commands.map((x) => new CodeActionQuickPick(x)))
-        .then((x) => x?.execute());
+      if (commands.length > 0) {
+        vscode.window
+          .showQuickPick(commands.map((x) => new CodeActionQuickPick(x)))
+          .then((x) => x?.execute());
+      } else {
+        vscode.window.showInformationMessage("No code actions available");
+      }
     }
   );
 
