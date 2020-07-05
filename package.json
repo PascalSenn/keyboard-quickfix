@@ -4,6 +4,7 @@
   "license": "MIT",
   "description": "Enables keyboard support for quickfix",
   "author": "Pascal Senn",
+  "icon": "icon.png",
   "bugs": {
     "url": "https://github.com/PascalSenn/keyboard-quickfix/issues"
   },
@@ -22,7 +23,7 @@
     "Keymaps"
   ],
   "publisher": "pascalsenn",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.46.0"
   },
