@@ -40,17 +40,25 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
   constructor(command: CodeActionCommand) {
     this.command = command;
     this.label = command.title;
+    if (typeof command.command !== "string") {
+      this.command = command.command as CodeActionCommand;
+    }
+    this.isShowLabel =
+      vscode.workspace
+        .getConfiguration("keyboard-quickfix")
+        .get("showActionLabel") === true;
   }
 
   public command: CodeActionCommand;
   public label: string;
+  public isShowLabel = false;
   public description?: string | undefined;
   public detail?: string | undefined;
   public picked?: boolean | undefined;
   public alwaysShow?: boolean | undefined;
 
   public execute() {
-    vscode.window.showInformationMessage(this.label);
+    if (this.isShowLabel) vscode.window.showInformationMessage(this.label);
     vscode.commands.executeCommand(
       this.command.command,
       ...this.command.arguments

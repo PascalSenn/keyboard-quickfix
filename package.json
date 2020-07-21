@@ -37,6 +37,18 @@
         "command": "keyboard-quickfix.openQuickFix",
         "title": "Open Quick Fix"
       }
+    ],
+    "configuration": [
+      {
+        "title": "keyboard-quickfix",
+        "properties": {
+          "keyboard-quickfix.showActionLabel": {
+            "type": "boolean",
+            "default": false,
+            "description": "Show label on action"
+          }
+        }
+      }
     ]
   },
   "scripts": {
