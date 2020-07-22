@@ -46,7 +46,7 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
     this.isShowLabel =
       vscode.workspace
         .getConfiguration("keyboard-quickfix")
-        .get("showActionLabel") === true;
+        .get("showActionNotification") === true;
   }
 
   public command: CodeActionCommand;

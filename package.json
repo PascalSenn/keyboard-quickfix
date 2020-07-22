@@ -42,7 +42,7 @@
       {
         "title": "keyboard-quickfix",
         "properties": {
-          "keyboard-quickfix.showActionLabel": {
+          "keyboard-quickfix.showActionNotification": {
             "type": "boolean",
             "default": false,
             "description": "Show label on action"
@@ -73,3 +73,4 @@
     "vscode-test": "^1.3.0"
   }
 }
+
