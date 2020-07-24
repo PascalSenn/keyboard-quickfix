@@ -37,6 +37,18 @@
         "command": "keyboard-quickfix.openQuickFix",
         "title": "Open Quick Fix"
       }
+    ],
+    "configuration": [
+      {
+        "title": "keyboard-quickfix",
+        "properties": {
+          "keyboard-quickfix.showActionNotification": {
+            "type": "boolean",
+            "default": false,
+            "description": "Show label on action"
+          }
+        }
+      }
     ]
   },
   "scripts": {
@@ -61,3 +73,4 @@
     "vscode-test": "^1.3.0"
   }
 }
+
