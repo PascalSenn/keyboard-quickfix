@@ -1,4 +1,4 @@
-# keyboard-quickfix
+# [keyboard-quickfix](https://marketplace.visualstudio.com/items?itemName=pascalsenn.keyboard-quickfix)
 
 It is currently not possible to navigate through the QuickFix (CodeActions) popup.
 For VIM users this really breaks the workflow.
@@ -9,6 +9,10 @@ This extension displays quick fixes in a quick open rather than in the menu.
 ### After
 ![After](/after.png)
 ## How to use
+You can get the extension here:
+
+[Keyboard Quickfix](https://marketplace.visualstudio.com/items?itemName=pascalsenn.keyboard-quickfix)
+
 The command to open the quick fix picker is:
 
 - keyboard-quickfix.openQuickFix
