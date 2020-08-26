@@ -31,8 +31,8 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {}
 
 interface CodeActionCommand {
-  arguments: Object[];
-  command: string;
+  arguments?: Object[];
+  command?: string;
   title: string;
   edit?: any;
 }
@@ -47,7 +47,7 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
     this.edits = command.edit
       ? (Object.values(command.edit)[0] as { uri: IUri; edit: ITextEdit }[])
       : undefined;
-    if (typeof command.command !== "string") {
+    if (command.command && typeof command.command !== "string") {
       this.command = command.command as CodeActionCommand;
     }
     this.isLabelShown =
@@ -67,16 +67,20 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
 
   public execute() {
     if (this.isLabelShown) vscode.window.showInformationMessage(this.label);
+    if (!this.command.command) return this.commitEdits();
     vscode.commands
-      .executeCommand(this.command.command, ...this.command.arguments)
+      .executeCommand(this.command.command, ...(this.command.arguments || []))
       .then((result) => {
-        if (this.edits && result) {
-          vscode.window.activeTextEditor?.edit((editBuilder) => {
-            this.edits?.forEach((edit) => {
-              editBuilder.replace(edit.edit.range, edit.edit.newText);
-            });
-          });
-        }
+        if (result) this.commitEdits();
       });
+  }
+
+  private commitEdits() {
+    if (!this.edits) return;
+    vscode.window.activeTextEditor?.edit((editBuilder) => {
+      this.edits?.forEach((edit) => {
+        editBuilder.replace(edit.edit.range, edit.edit.newText);
+      });
+    });
   }
 }
