@@ -34,12 +34,19 @@ interface CodeActionCommand {
   arguments: Object[];
   command: string;
   title: string;
+  edit?: any;
 }
+
+interface IUri extends vscode.Uri {}
+interface ITextEdit extends vscode.TextEdit {}
 
 class CodeActionQuickPick implements vscode.QuickPickItem {
   constructor(command: CodeActionCommand) {
     this.command = command;
     this.label = command.title;
+    this.edits = command.edit
+      ? (Object.values(command.edit)[0] as { uri: IUri; edit: ITextEdit }[])
+      : undefined;
     if (typeof command.command !== "string") {
       this.command = command.command as CodeActionCommand;
     }
@@ -56,12 +63,20 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
   public detail?: string | undefined;
   public picked?: boolean | undefined;
   public alwaysShow?: boolean | undefined;
+  public edits: { uri: IUri; edit: ITextEdit }[] | undefined;
 
   public execute() {
     if (this.isLabelShown) vscode.window.showInformationMessage(this.label);
-    vscode.commands.executeCommand(
-      this.command.command,
-      ...this.command.arguments
-    );
+    vscode.commands
+      .executeCommand(this.command.command, ...this.command.arguments)
+      .then((result) => {
+        if (this.edits && result) {
+          vscode.window.activeTextEditor?.edit((editBuilder) => {
+            this.edits?.forEach((edit) => {
+              editBuilder.replace(edit.edit.range, edit.edit.newText);
+            });
+          });
+        }
+      });
   }
 }
