@@ -71,16 +71,57 @@ class CodeActionQuickPick implements vscode.QuickPickItem {
     vscode.commands
       .executeCommand(this.command.command, ...(this.command.arguments || []))
       .then((result) => {
-        if (result) this.commitEdits();
+        if (
+          this.command.command?.includes(
+            "_typescript.applyCodeActionCommand"
+          ) &&
+          result
+        )
+          this.commitEdits();
       });
   }
 
-  private commitEdits() {
+  private async commitEdits() {
     if (!this.edits) return;
-    vscode.window.activeTextEditor?.edit((editBuilder) => {
-      this.edits?.forEach((edit) => {
-        editBuilder.replace(edit.edit.range, edit.edit.newText);
-      });
-    });
+    const initialDocument = vscode.window.activeTextEditor?.document;
+    const newEdit = this.parseEdit(this.edits);
+    await Promise.all(
+      newEdit.map(async ({ uri, edits }) => {
+        const document = await vscode.workspace.openTextDocument(uri);
+        const editor = await vscode.window.showTextDocument(document);
+        editor.edit((editBuilder) => {
+          edits.forEach((edit) => {
+            editBuilder.replace(edit.range, edit.newText);
+          });
+        });
+      })
+    );
+    // unable to open and edit document in the background
+    // due to vscode api constraints, active editor needs to be
+    // changed manually
+    if (initialDocument) vscode.window.showTextDocument(initialDocument);
+  }
+
+  private parseEdit(
+    edits: { uri: IUri; edit: ITextEdit }[]
+  ): { uri: IUri; edits: ITextEdit[] }[] {
+    return edits.reduce<{ uri: IUri; edits: ITextEdit[] }[]>(
+      (accumulator, currentValue) => {
+        const documentChanges = accumulator.find(
+          (edit) => edit.uri.path === currentValue.uri.path
+        );
+        const textEdit = currentValue.edit;
+        if (documentChanges) {
+          documentChanges.edits.push(textEdit);
+        } else {
+          accumulator.push({
+            uri: currentValue.uri,
+            edits: [currentValue.edit],
+          });
+        }
+        return accumulator;
+      },
+      []
+    );
   }
 }
