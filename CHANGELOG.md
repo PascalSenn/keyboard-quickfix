@@ -2,6 +2,10 @@
 
 All notable changes to the "keyboard-quickfix" extension will be documented in this file.
 
+## [0.0.6]
+
+- Adds TS support
+
 ## [0.0.5]
 
 - Bug fix for Go and Flutter
