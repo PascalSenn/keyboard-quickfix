@@ -22,6 +22,28 @@ The quick picker can be traversed with the following commands:
 - workbench.action.quickOpenSelectNext
 - workbench.action.quickOpenSelectPrevious
 
+Below is an example [keybindings.json](https://code.visualstudio.com/docs/getstarted/keybindings) file:
+
+```json
+[
+  {
+    "key": "ctrl+.",
+    "command": "keyboard-quickfix.openQuickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly && vim.active"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.quickOpenSelectPrevious",
+    "when": "inQuickOpen && !editorReadonly && vim.active"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.quickOpenSelectNext",
+    "when": "inQuickOpen && !editorReadonly && vim.active"
+  }
+]
+```
+
 ## Why does this exist?
 The quick open popup is a native popup and there for does not support it yet.
 It is unclear when the support for it is comming. You can follow this issue:
