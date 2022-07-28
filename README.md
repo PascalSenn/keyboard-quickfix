@@ -1,3 +1,7 @@
+# Important 
+There is movement on VSCode to solve the problem natively: 
+https://github.com/microsoft/vscode/issues/55111#issuecomment-1197426941
+
 # [keyboard-quickfix](https://marketplace.visualstudio.com/items?itemName=pascalsenn.keyboard-quickfix)
 
 It is currently not possible to navigate through the QuickFix (CodeActions) popup.
